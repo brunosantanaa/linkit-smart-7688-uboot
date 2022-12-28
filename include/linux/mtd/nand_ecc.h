@@ -1,13 +1,10 @@
+/* SPDX-License-Identifier: GPL-2.0 */
 /*
  *  drivers/mtd/nand_ecc.h
  *
- *  Copyright (C) 2000 Steven J. Hill (sjhill@realitydiluted.com)
- *
- * $Id: //WIFI_SOC/main/RT288x_SDK/source/linux-2.6.21.x/include/linux/mtd/nand_ecc.h#1 $
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
+ *  Copyright (C) 2000-2010 Steven J. Hill <sjhill@realitydiluted.com>
+ *			    David Woodhouse <dwmw2@infradead.org>
+ *			    Thomas Gleixner <tglx@linutronix.de>
  *
  * This file is the header for the ECC algorithm.
  */

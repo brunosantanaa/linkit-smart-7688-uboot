@@ -1,12 +1,9 @@
 #ifndef _LINUX_TYPES_H
 #define _LINUX_TYPES_H
 
-#ifdef	__KERNEL__
-#include <linux/config.h>
-#endif
-
 #include <linux/posix_types.h>
 #include <asm/types.h>
+#include <stdbool.h>
 
 #ifndef __KERNEL_STRICT_NAMES
 
@@ -26,6 +23,8 @@ typedef __kernel_uid32_t	uid_t;
 typedef __kernel_gid32_t	gid_t;
 typedef __kernel_uid16_t        uid16_t;
 typedef __kernel_gid16_t        gid16_t;
+
+typedef unsigned long		uintptr_t;
 
 #ifdef CONFIG_UID16
 /* This is defined by include/asm-{arch}/posix_types.h */
@@ -79,32 +78,18 @@ typedef __kernel_clock_t	clock_t;
 typedef __kernel_caddr_t	caddr_t;
 #endif
 
-#define true (1)
-#define false (0)
-
 /* bsd */
 typedef unsigned char		u_char;
 typedef unsigned short		u_short;
 typedef unsigned int		u_int;
 typedef unsigned long		u_long;
-#ifdef MTK_MSDC
-typedef int			bool;
-#endif
 
 /* sysv */
-typedef unsigned char		unchar;
+typedef unsigned char		uchar;
 typedef unsigned short		ushort;
 typedef unsigned int		uint;
 typedef unsigned long		ulong;
 
-#ifdef MTK_MSDC
-typedef unsigned char       uint8;
-typedef unsigned short      uint16;
-typedef unsigned int        uint32;
-typedef signed char         int8;
-typedef signed short        int16;
-typedef signed int          int32;
-#endif
 #ifndef __BIT_TYPES_DEFINED__
 #define __BIT_TYPES_DEFINED__
 
@@ -128,6 +113,15 @@ typedef		__s64		int64_t;
 #endif
 
 #endif /* __KERNEL_STRICT_NAMES */
+
+/* this is a special 64bit data type that is 8-byte aligned */
+#define aligned_u64 __u64 __aligned(8)
+#define aligned_be64 __be64 __aligned(8)
+#define aligned_le64 __le64 __aligned(8)
+
+#ifdef __KERNEL__
+typedef phys_addr_t resource_size_t;
+#endif
 
 /*
  * Below are truly Linux-specific types that should never collide with
@@ -155,14 +149,22 @@ typedef __u64 __bitwise __be64;
 typedef __u16 __bitwise __sum16;
 typedef __u32 __bitwise __wsum;
 
+typedef unsigned __bitwise__	gfp_t;
 
+#ifdef __linux__
 struct ustat {
 	__kernel_daddr_t	f_tfree;
 	__kernel_ino_t		f_tinode;
 	char			f_fname[6];
 	char			f_fpack[6];
 };
+#endif
 
-typedef unsigned long int uintptr_t;
+#define DECLARE_BITMAP(name, bits) \
+	unsigned long name[BITS_TO_LONGS(bits)]
+
+typedef volatile unsigned long	vu_long;
+typedef volatile unsigned short vu_short;
+typedef volatile unsigned char	vu_char;
 
 #endif /* _LINUX_TYPES_H */
